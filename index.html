@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071a2d">
+  <meta name="description" content="ליגת ניחושי הכדורגל של החבר'ה — מנחשים תוצאות, כובש ראשון ומתחרים בטבלת החברים.">
+  <title>גול של החבר'ה | ליגת הניחושים</title>
+  <link rel="icon" href="assets/ball.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="גול של החבר'ה - ראשי">
+      <span class="brand-mark" aria-hidden="true">⚽</span>
+      <span class="brand-copy"><strong>גול של החבר'ה</strong><small>ליגת הניחושים</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="connection-pill" id="connection-pill"><i></i><span>מצב הדגמה</span></span>
+      <button class="icon-button" id="share-button" title="העתקת קישור להזמנה" aria-label="העתקת קישור להזמנה">↗</button>
+      <button class="avatar-button" id="profile-button" title="הפרופיל שלי"><span id="avatar-initial">ר</span></button>
+    </div>
+  </header>
+
+  <main id="top" class="shell">
+    <div class="demo-banner" id="demo-banner"><span>ⓘ</span><span>תצוגת הדגמה: הנתונים נשמרים בדפדפן הזה בלבד. כדי לשחק יחד מכל מכשיר צריך לחבר מסד נתונים (הוראות ב־README).</span></div>
+
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="eyebrow"><span class="live-dot"></span><span id="season-label">חדר ההלבשה של החבר'ה</span></div>
+        <h1>מי לוקח<br><em>את הליגה?</em></h1>
+        <p>תוצאה. כובש ראשון. עקיצות בקבוצה. כל המחזור במקום אחד.</p>
+        <div class="hero-actions">
+          <button class="primary-button" id="hero-add-game">＋ הוסף משחק</button>
+          <button class="secondary-button" id="hero-share">הזמן חברים <span>↗</span></button>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="stadium-lights"></div><div class="pitch-scene"><span class="pitch-line"></span><span class="pitch-circle"></span><span class="pitch-box"></span></div>
+        <div class="europe-night-mark" aria-label="ערב אירופי"><span class="cup-icon">🏆</span><small>EUROPEAN NIGHT</small><i>✦ · ✦</i></div>
+        <div class="orb orb-a"></div><div class="orb orb-b"></div>
+        <div class="hero-ring ring-a"></div><div class="hero-ring ring-b"></div>
+        <div class="hero-ball">⚽</div>
+        <div class="floating-score score-top"><span>המשחק הבא</span><b>מי שם ראשון?</b></div>
+        <div class="floating-score score-bottom"><span>טבלת החבר'ה</span><b>🏆 מי בפסגה?</b></div>
+      </div>
+      <div class="hero-grain"></div>
+    </section>
+
+    <section class="stats-grid" aria-label="סיכום הליגה">
+      <article class="stat-card"><span class="stat-icon">▣</span><div><strong id="stat-games">0</strong><small>משחקים בליגה</small></div></article>
+      <article class="stat-card"><span class="stat-icon">♟</span><div><strong id="stat-players">1</strong><small>חברים בליגה</small></div></article>
+      <article class="stat-card"><span class="stat-icon">◉</span><div><strong id="stat-predictions">0</strong><small>ניחושים הוגשו</small></div></article>
+      <article class="stat-card stat-highlight"><span class="stat-icon">✦</span><div><strong id="stat-leader">—</strong><small>מוביל הליגה</small></div></article>
+    </section>
+
+    <section class="scores-strip"><span class="scores-live-dot"></span><div><b>הרכבים ונתוני משחק</b><small>חיבור רשמי ל־365Scores יופעל אחרי קבלת קוד ההטמעה</small></div><a href="https://www.publishers.365scores.com/" target="_blank" rel="noopener">פרטי שיתוף פעולה ↗</a></section>
+
+    <nav class="section-tabs" aria-label="ניווט באתר">
+      <button class="tab-button active" data-tab="matches">המשחקים <span id="tab-game-count">0</span></button>
+      <button class="tab-button" data-tab="leaderboard">טבלת הליגה</button>
+      <button class="tab-button" data-tab="admin">ניהול הליגה <span class="tab-lock">⚙</span></button>
+    </nav>
+
+    <section class="tab-panel active" id="panel-matches">
+      <div class="section-heading">
+        <div><div class="eyebrow small-eyebrow">המחזור הקרוב</div><h2>המשחקים שלכם</h2></div>
+        <div class="heading-actions"><select id="competition-filter" class="select-control" aria-label="סינון לפי מפעל"><option value="all">כל המפעלים</option><option value="ucl">ליגת האלופות</option><option value="laliga">הליגה הספרדית</option><option value="israel">ליגת העל</option></select><button id="refresh-button" class="icon-button light-icon" title="רענון">⟳</button></div>
+      </div>
+      <div class="match-grid" id="match-grid"></div>
+      <div class="empty-state" id="empty-matches">
+        <div class="empty-ball">⚽</div><h3>מוכנים לשריקת הפתיחה?</h3>
+        <p>הוסף את המשחקים שבחרת, והחברים יוכלו להגיש את הניחושים שלהם.</p>
+        <button class="primary-button" id="empty-add-game">＋ הוסף את המשחק הראשון</button>
+      </div>
+    </section>
+
+    <section class="tab-panel" id="panel-leaderboard">
+      <div class="section-heading"><div><div class="eyebrow small-eyebrow">הקרב על הפסגה</div><h2>טבלת הליגה</h2></div><div class="points-note">ניקוד: <b>5</b> תוצאה מדויקת · <b>2</b> תוצאת משחק · <b>3</b> כובש ראשון</div></div>
+      <div class="leaderboard-card"><div class="leaderboard-head"><span>מיקום</span><span>שחקן</span><span>ניחושים</span><span>ניקוד</span></div><div id="leaderboard-list"></div><div class="empty-inline" id="empty-leaderboard">כאן תופיע הטבלה אחרי שתזינו תוצאות של משחקים.</div></div>
+    </section>
+
+    <section class="tab-panel" id="panel-admin">
+      <div class="section-heading"><div><div class="eyebrow small-eyebrow">אתה קובע את הלוח</div><h2>ניהול הליגה</h2></div><span class="admin-badge" id="admin-badge">מנהל הליגה</span></div>
+      <div class="admin-grid">
+        <article class="admin-card"><div class="admin-card-title"><span class="admin-icon">＋</span><div><h3>הוסף משחק</h3><p>בחר מפעל והזן את פרטי המשחק.</p></div></div>
+          <form id="match-form" class="form-grid">
+            <label class="field full">המפעל<select name="competition" required><option value="ucl">ליגת האלופות</option><option value="laliga">הליגה הספרדית</option><option value="israel">ליגת העל</option></select></label>
+            <label class="field">קבוצה ביתית<input name="home" required maxlength="32" placeholder="למשל: ברצלונה"></label>
+            <label class="field">קבוצה אורחת<input name="away" required maxlength="32" placeholder="למשל: ריאל מדריד"></label>
+            <label class="field full">מועד שריקת הפתיחה<input name="kickoff" type="datetime-local" required></label>
+            <button class="primary-button full" type="submit">הוסף ללוח המשחקים <span>→</span></button>
+          </form>
+        </article>
+        <article class="admin-card"><div class="admin-card-title"><span class="admin-icon final-icon">✓</span><div><h3>סגור משחק והזן תוצאה</h3><p>הניקוד יתעדכן אוטומטית בטבלה.</p></div></div>
+          <form id="result-form" class="form-grid">
+            <label class="field full">בחר משחק<select name="match_id" id="result-match-select" required><option value="">אין משחקים פתוחים</option></select></label>
+            <label class="field">תוצאת בית<input name="home_score" type="number" min="0" max="30" required placeholder="0"></label>
+            <label class="field">תוצאת חוץ<input name="away_score" type="number" min="0" max="30" required placeholder="0"></label>
+            <label class="field full">כובש ראשון<input name="first_scorer" maxlength="48" placeholder="שם הכובש או 'ללא שערים'"></label>
+            <button class="primary-button full" type="submit">עדכן תוצאה סופית <span>✓</span></button>
+          </form>
+        </article>
+        <article class="admin-card profile-card"><div class="admin-card-title"><span class="admin-icon profile-icon">♙</span><div><h3>פרטי הליגה</h3><p>שתף את קוד ההזמנה עם החברים.</p></div></div>
+          <div class="league-details"><div><span>שם הליגה</span><strong id="league-name-display">ליגת החברים</strong></div><div><span>קוד הזמנה</span><strong class="invite-code" id="invite-code-display">GOL-2026</strong></div></div>
+          <button class="secondary-button wide" id="copy-code">העתק קישור וקוד הזמנה <span>↗</span></button>
+        </article>
+        <article class="admin-card music-card"><div class="admin-card-title"><span class="admin-icon music-icon">♫</span><div><h3>אווירת משחק</h3><p>הוסף קובצי שמע משלך למפעלים.</p></div></div>
+          <p class="music-note">הדפדפן יפעיל מוזיקה רק אחרי לחיצה. כדי להשתמש בשירי ליגות, הוסף קבצים שיש לך רשות להשתמש בהם לתיקיית <code>assets/audio</code> בשם <code>ucl.mp3</code>, <code>laliga.mp3</code> או <code>israel.mp3</code>.</p>
+          <div class="music-buttons"><button class="music-choice" data-music="ucl">✦ אלופות</button><button class="music-choice" data-music="laliga">◉ ספרד</button><button class="music-choice" data-music="israel">⚽ ישראל</button></div>
+          <button class="secondary-button wide" id="music-toggle">♫ הפעל אווירה</button>
+        </article>
+      </div>
+    </section>
+
+    <footer class="footer"><span>גול של החבר'ה <b>•</b> ליגה פרטית, יריבות ידידותית</span><span>ניחושים נסגרים בשריקת הפתיחה</span></footer>
+  </main>
+
+  <div class="modal-backdrop hidden" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="modal"><button class="modal-close" data-close="auth-modal" aria-label="סגירה">×</button><div class="modal-symbol">⚽</div><h2 id="auth-title">מתחברים לליגה</h2><p class="modal-subtitle">התחבר או צור חשבון כדי להצטרף לחברים מכל מכשיר.</p>
+      <form id="auth-form" class="form-grid">
+        <label class="field full">שם שיוצג בליגה<input name="display_name" required maxlength="24" placeholder="איך החברים מכירים אותך?"></label>
+        <label class="field full">כתובת אימייל<input name="email" type="email" required placeholder="name@example.com" autocomplete="email"></label>
+        <label class="field full">סיסמה<input name="password" type="password" required minlength="8" placeholder="לפחות 8 תווים" autocomplete="current-password"></label>
+        <div class="auth-actions full"><button class="primary-button" name="intent" value="signin">התחברות</button><button class="secondary-button" name="intent" value="signup">יצירת חשבון</button></div>
+      </form><p class="modal-message" id="auth-message"></p>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="league-modal" role="dialog" aria-modal="true" aria-labelledby="league-title">
+    <div class="modal"><button class="modal-close" data-close="league-modal" aria-label="סגירה">×</button><div class="modal-symbol">🏆</div><h2 id="league-title">הליגה הראשונה שלך</h2><p class="modal-subtitle">צור ליגה חדשה או הצטרף עם קוד שקיבלת מחבר.</p>
+      <form id="league-form" class="form-grid"><label class="field full">קוד הליגה של החברים<input name="invite_code" maxlength="12" placeholder="הקלד את הקוד שקיבלת"></label><button class="primary-button full" name="intent" value="join">הצטרף לליגה ⚽</button><div class="separator full"><span>או פתח ליגה משלך</span></div><label class="field full">שם הליגה<input name="league_name" maxlength="32" placeholder="למשל: החבר'ה של שישי"></label><button class="secondary-button full" name="intent" value="create">צור ליגה חדשה</button></form><p class="modal-message" id="league-message"></p>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+    <div class="modal"><button class="modal-close" data-close="profile-modal" aria-label="סגירה">×</button><div class="modal-symbol">♙</div><h2 id="profile-title">הפרופיל שלך</h2><div id="profile-content"></div></div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="setup-profile-modal" role="dialog" aria-modal="true" aria-labelledby="setup-profile-title">
+    <div class="modal"><div class="modal-symbol">🧢</div><h2 id="setup-profile-title">בונים את הפרופיל</h2><p class="modal-subtitle">מי הקבוצה שלך? החברים יראו את הבחירות שלך.</p>
+      <form id="favorite-form" class="form-grid">
+        <label class="field full">הקבוצה שלך בליגת העל<input name="favorite_israel_team" maxlength="40" required placeholder="למשל: מכבי חיפה"></label>
+        <label class="field full">הקבוצה שלך בליגת האלופות<input name="favorite_ucl_team" maxlength="40" required placeholder="למשל: ברצלונה"></label>
+        <button class="primary-button full" type="submit">יאללה, נכנסים לליגה ⚽</button>
+      </form><p class="modal-message" id="favorite-message"></p>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <audio id="competition-audio" preload="none"></audio>
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
