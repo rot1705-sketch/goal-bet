@@ -3,6 +3,7 @@
   const STORE_KEY = "goal-bet-local-v1";
   const LABELS = { ucl: "ליגת האלופות", laliga: "הליגה הספרדית", israel: "ליגת העל" };
   const SYMBOLS = { ucl: "🏆", laliga: "◉", israel: "⚽" };
+  const SCORES_365 = { ucl: "https://www.365scores.com/he/football/league/uefa-champions-league-572/matches", laliga: "https://www.365scores.com/he/football/league/laliga-11/matches", israel: "https://www.365scores.com/he/football/league/ligat-haal-42/matches" };
   const AUDIO_PATHS = { ucl: "assets/audio/ucl.mp3", laliga: "assets/audio/laliga.mp3", israel: "assets/audio/israel.mp3" };
   const config = window.APP_CONFIG || {};
   const cloudReady = Boolean(config.supabaseUrl && config.supabaseAnonKey && window.supabase?.createClient);
@@ -96,7 +97,7 @@
     } else {
       predictionBlock = `<form class="prediction-form" data-match-id="${escapeHtml(match.id)}"><div class="prediction-caption"><span>${prediction ? "עדכון הניחוש שלך" : "מה הניחוש שלך?"}</span><small>ננעל בשריקת הפתיחה</small></div><div class="prediction-row"><div class="score-input-wrap"><input name="home_score" type="number" min="0" max="30" required aria-label="שערים לקבוצה הביתית" value="${escapeHtml(scoreHome)}"><span>בית</span></div><div class="score-input-wrap"><input name="away_score" type="number" min="0" max="30" required aria-label="שערים לקבוצה האורחת" value="${escapeHtml(scoreAway)}"><span>חוץ</span></div></div><input class="scorer-input" name="first_scorer_guess" required maxlength="48" placeholder="מי יבקיע ראשון?" value="${escapeHtml(scorer)}"><button class="submit-prediction" type="submit">${prediction ? "שמור עדכון" : "שלח ניחוש"} <span>→</span></button></form>`;
     }
-    return `<article class="match-card" data-competition="${escapeHtml(comp)}" data-match-card="${escapeHtml(match.id)}"><button class="delete-match" data-delete-match="${escapeHtml(match.id)}" title="מחיקת משחק" aria-label="מחיקת משחק">×</button><div class="match-topline"><span class="competition-chip ${escapeHtml(comp)}">${SYMBOLS[comp] || "⚽"} ${LABELS[comp] || "ליגה"}</span><span class="match-date">${escapeHtml(timeText)}</span></div><div class="match-teams"><div class="team"><span class="team-badge">🏠</span><div class="team-name">${escapeHtml(match.home_team)}</div></div><div class="vs-block">${finished ? `<strong class="score-final">${match.home_score} : ${match.away_score}</strong><span>סופי</span>` : `<strong>VS</strong><span class="match-time">${formatKickoff(match.kickoff_at).split(" ").slice(-1)[0] || ""}</span>`}</div><div class="team"><span class="team-badge">🛡️</span><div class="team-name">${escapeHtml(match.away_team)}</div></div></div>${predictionBlock}${resultBlock}</article>`;
+    return `<article class="match-card" data-competition="${escapeHtml(comp)}" data-match-card="${escapeHtml(match.id)}"><button class="delete-match" data-delete-match="${escapeHtml(match.id)}" title="מחיקת משחק" aria-label="מחיקת משחק">×</button><div class="match-topline"><span class="competition-chip ${escapeHtml(comp)}">${SYMBOLS[comp] || "⚽"} ${LABELS[comp] || "ליגה"}</span><span class="match-date">${escapeHtml(timeText)}</span></div><div class="match-teams"><div class="team"><span class="team-badge">🏠</span><div class="team-name">${escapeHtml(match.home_team)}</div></div><div class="vs-block">${finished ? `<strong class="score-final">${match.home_score} : ${match.away_score}</strong><span>סופי</span>` : `<strong>VS</strong><span class="match-time">${formatKickoff(match.kickoff_at).split(" ").slice(-1)[0] || ""}</span>`}</div><div class="team"><span class="team-badge">🛡️</span><div class="team-name">${escapeHtml(match.away_team)}</div></div></div>${predictionBlock}${resultBlock}<a class="scores-link" href="${SCORES_365[comp] || SCORES_365.ucl}" target="_blank" rel="noopener">📊 הרכבים ונתונים ב־365 ↗</a></article>`;
   }
 
   function leaderboardRows() {
@@ -313,6 +314,7 @@
   }
 
   async function handleMusic() {
+    if (currentCompetition === "ucl" && window.GoalAnthem) { if (window.GoalAnthem.playing) window.GoalAnthem.stop(); else window.GoalAnthem.play(); return; }
     const path = AUDIO_PATHS[currentCompetition] || AUDIO_PATHS.ucl;
     if (audio.src && audio.src.endsWith(path) && !audio.paused) { audio.pause(); $("#music-toggle").textContent = "♫ הפעל אווירה"; return; }
     audio.pause(); audio.src = path; audio.loop = true;
@@ -389,4 +391,16 @@
   }
   setTheme("ucl");
   render();
+
+  // Stadium entrance: browsers only allow sound after a tap, so the theme plays when entering.
+  const gate = $("#intro-gate");
+  const SOUND_KEY = "goal-bet-sound";
+  const soundPref = (() => { try { return localStorage.getItem(SOUND_KEY); } catch (_) { return null; } })();
+  const closeGate = () => { gate.classList.add("hiding"); setTimeout(() => gate.classList.add("hidden"), 700); };
+  const setSoundIcon = playing => { $("#sound-toggle").textContent = playing ? "Ⅱ" : "♫"; $("#music-toggle").textContent = playing ? "Ⅱ עצור מוזיקה" : "♫ הפעל אווירה"; };
+  window.addEventListener("anthem", e => setSoundIcon(e.detail.playing));
+  $("#gate-enter").addEventListener("click", () => { try { localStorage.setItem(SOUND_KEY, "on"); } catch (_) {} window.GoalAnthem?.play(); closeGate(); });
+  $("#gate-silent").addEventListener("click", () => { try { localStorage.setItem(SOUND_KEY, "off"); } catch (_) {} closeGate(); });
+  $("#sound-toggle").addEventListener("click", () => { if (window.GoalAnthem?.playing) window.GoalAnthem.stop(); else window.GoalAnthem?.play(); });
+  if (soundPref === "off") gate.classList.add("hidden");
 })();

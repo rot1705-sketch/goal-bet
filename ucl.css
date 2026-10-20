@@ -1,0 +1,43 @@
+/* European night: full-page background for the Champions League theme (original artwork, no official marks) */
+body[data-theme="ucl"]{background:
+  radial-gradient(ellipse 70% 45% at 50% -8%,#3d6dff40 0,transparent 70%),
+  radial-gradient(ellipse 40% 30% at 12% 6%,#8fb4ff22 0,transparent 70%),
+  radial-gradient(ellipse 40% 30% at 88% 6%,#8fb4ff22 0,transparent 70%),
+  linear-gradient(180deg,#040b24 0%,#071537 38%,#0a1a45 70%,#06102a 100%);background-attachment:fixed}
+body[data-theme="ucl"]:before,body[data-theme="ucl"]:after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none}
+body[data-theme="ucl"]:before{background-image:
+  radial-gradient(1.4px 1.4px at 7% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 18% 30%,#dfe8ff 50%,transparent 51%),
+  radial-gradient(1.6px 1.6px at 29% 8%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 41% 22%,#cfe0ff 50%,transparent 51%),
+  radial-gradient(1.2px 1.2px at 56% 6%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 63% 34%,#dfe8ff 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 74% 15%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 86% 27%,#cfe0ff 50%,transparent 51%),
+  radial-gradient(1.3px 1.3px at 94% 9%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 12% 48%,#cfe0ff 50%,transparent 51%),
+  radial-gradient(1.2px 1.2px at 35% 55%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 68% 52%,#dfe8ff 50%,transparent 51%),
+  radial-gradient(1.4px 1.4px at 90% 60%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 50% 72%,#cfe0ff 50%,transparent 51%),
+  radial-gradient(1.2px 1.2px at 22% 82%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 80% 88%,#dfe8ff 50%,transparent 51%);
+  background-size:520px 520px;opacity:.75;animation:ucl-twinkle 6s ease-in-out infinite alternate}
+body[data-theme="ucl"]:after{background:
+  conic-gradient(from 160deg at 8% -6%,transparent 0deg,#bcd2ff14 8deg,transparent 18deg),
+  conic-gradient(from 182deg at 92% -6%,transparent 0deg,#bcd2ff14 10deg,transparent 20deg),
+  radial-gradient(ellipse 120% 30% at 50% 108%,#1f7a4a33 0,transparent 60%)}
+@keyframes ucl-twinkle{from{opacity:.45}to{opacity:.85}}
+body[data-theme="ucl"] .topbar{background:#050d29e6;border-color:#1e2d5c}
+body[data-theme="ucl"] .stat-card,body[data-theme="ucl"] .match-card,body[data-theme="ucl"] .leaderboard-card,body[data-theme="ucl"] .admin-card{background:#0b1a44d9;border-color:#25397a;backdrop-filter:blur(6px)}
+body[data-theme="ucl"] .brand-mark,body[data-theme="ucl"] .avatar-button{background:#dfe8ff;color:#0a1a45}
+@media (prefers-reduced-motion:reduce){body[data-theme="ucl"]:before{animation:none}}
+
+/* 365Scores link on each match */
+.scores-link{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;height:34px;border-radius:9px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:11px;font-weight:800;background:#ffffff08}
+.scores-link:hover{border-color:#4f7cff;background:#4f7cff1a}
+
+/* Stadium entrance gate (starts the theme music on the first tap, as browsers require) */
+.intro-gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;text-align:center;color:#eef3ff;
+  background:radial-gradient(ellipse 80% 50% at 50% 0,#3d6dff55,transparent 70%),linear-gradient(180deg,#030820,#071537 60%,#040b24)}
+.intro-gate.hiding{animation:gate-out .7s ease forwards}
+@keyframes gate-out{to{opacity:0;transform:scale(1.04);visibility:hidden}}
+.intro-gate .gate-inner{max-width:360px}
+.intro-gate .gate-trophy{font-size:64px;filter:drop-shadow(0 0 22px #9bbcff)}
+.intro-gate h2{font-size:30px;margin:10px 0 6px;letter-spacing:-.02em}
+.intro-gate p{margin:0 0 22px;color:#b8c7ee;font-size:13px}
+.intro-gate .gate-enter{height:50px;padding:0 28px;border:0;border-radius:14px;background:#dfe8ff;color:#0a1a45;font-weight:900;font-size:15px;box-shadow:0 0 30px #6d93ff77}
+.intro-gate .gate-silent{display:block;margin:14px auto 0;background:none;border:0;color:#9fb1df;font-size:12px;text-decoration:underline}
+.sound-toggle{position:fixed;left:16px;bottom:16px;z-index:9;width:42px;height:42px;border-radius:50%;border:1px solid #2b3f7d;background:#0b1a44e6;color:#dfe8ff;font-size:17px}

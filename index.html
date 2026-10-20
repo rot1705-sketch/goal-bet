@@ -11,8 +11,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ucl.css">
 </head>
 <body>
+  <div class="intro-gate" id="intro-gate" role="dialog" aria-label="כניסה לאצטדיון">
+    <div class="gate-inner">
+      <div class="gate-trophy" aria-hidden="true">🏆</div>
+      <h2>ערב אירופי בחדר ההלבשה</h2>
+      <p>הזרקורים דולקים, הקהל עומד. מוכנים לניחושים?</p>
+      <button class="gate-enter" id="gate-enter">⚽ היכנסו לאצטדיון ♫</button>
+      <button class="gate-silent" id="gate-silent">כניסה בלי צליל</button>
+    </div>
+  </div>
+  <button class="sound-toggle" id="sound-toggle" title="מנגינת הפתיחה" aria-label="מנגינת הפתיחה">♫</button>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="גול של החבר'ה - ראשי">
@@ -58,7 +69,7 @@
       <article class="stat-card stat-highlight"><span class="stat-icon">✦</span><div><strong id="stat-leader">—</strong><small>מוביל הליגה</small></div></article>
     </section>
 
-    <section class="scores-strip"><span class="scores-live-dot"></span><div><b>הרכבים ונתוני משחק</b><small>חיבור רשמי ל־365Scores יופעל אחרי קבלת קוד ההטמעה</small></div><a href="https://www.publishers.365scores.com/" target="_blank" rel="noopener">פרטי שיתוף פעולה ↗</a></section>
+    <section class="scores-strip"><span class="scores-live-dot"></span><div><b>הרכבים ונתוני משחק</b><small>בכל משחק יש כפתור 365 — שם רואים הרכבים, אירועים וסטטיסטיקות</small></div><a href="https://www.365scores.com/he/football/league/uefa-champions-league-572/matches" target="_blank" rel="noopener">ליגת האלופות ב־365 ↗</a></section>
 
     <nav class="section-tabs" aria-label="ניווט באתר">
       <button class="tab-button active" data-tab="matches">המשחקים <span id="tab-game-count">0</span></button>
@@ -155,6 +166,7 @@
   <audio id="competition-audio" preload="none"></audio>
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="anthem.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
