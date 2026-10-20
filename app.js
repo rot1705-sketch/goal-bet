@@ -37,7 +37,7 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
-  const currentName = () => cloudReady ? (activeMember?.display_name || cloudUser?.user_metadata?.display_name || "שחקן") : localName;
+  const currentName = () => cloudReady ? (activeMember?.display_name || cloudUser?.user_metadata?.display_name || cloudUser?.user_metadata?.full_name || "שחקן") : localName;
   const currentId = () => cloudReady ? cloudUser?.id : `local-${slug(localName)}`;
   const leagueTitle = () => cloudReady ? (activeLeague?.title || "הליגה שלכם") : localLeague.title;
   const inviteCode = () => cloudReady ? (activeLeague?.invite_code || "") : localLeague.invite_code;
@@ -194,7 +194,7 @@
 
   async function handleAuth(event) {
     event.preventDefault();
-    const form = event.currentTarget; const data = new FormData(form);
+    const form = event.target; const data = new FormData(form);
     const name = String(data.get("display_name") || "").trim();
     const email = String(data.get("email") || "").trim(); const password = String(data.get("password") || "");
     const intent = event.submitter?.value || "signin";
@@ -218,12 +218,12 @@
   }
 
   async function handleLeague(event) {
-    event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const intent = event.submitter?.value;
+    event.preventDefault(); const form = event.target; const data = new FormData(form); const intent = event.submitter?.value;
     const message = $("#league-message"); message.textContent = "";
     if (intent === "create" && !String(data.get("league_name") || "").trim()) { message.textContent = "צריך לתת שם לליגה."; return; }
     if (intent === "join" && !String(data.get("invite_code") || "").trim()) { message.textContent = "צריך להזין קוד הזמנה."; return; }
     setBusy(form, true);
-    const name = cloudUser?.user_metadata?.display_name || localStorage.getItem("goal-bet-display-name") || "שחקן";
+    const name = (cloudUser?.user_metadata?.display_name || cloudUser?.user_metadata?.full_name || cloudUser?.user_metadata?.name || localStorage.getItem("goal-bet-display-name") || "שחקן").slice(0, 24);
     try {
       let response;
       if (intent === "create") response = await db.rpc("create_league", { p_title: String(data.get("league_name") || "").trim(), p_display_name: name });
@@ -235,7 +235,7 @@
   }
 
   async function handleAddMatch(event) {
-    event.preventDefault(); const form = event.currentTarget; const data = new FormData(form);
+    event.preventDefault(); const form = event.target; const data = new FormData(form);
     const home = String(data.get("home") || "").trim(); const away = String(data.get("away") || "").trim();
     const kickoff = new Date(String(data.get("kickoff") || "")).toISOString(); const competition = String(data.get("competition") || "ucl");
     if (home === away) { toast("בחר שתי קבוצות שונות."); return; }
@@ -278,7 +278,7 @@
   }
 
   async function handleResult(event) {
-    event.preventDefault(); const form = event.currentTarget; const data = new FormData(form); const matchId = String(data.get("match_id") || "");
+    event.preventDefault(); const form = event.target; const data = new FormData(form); const matchId = String(data.get("match_id") || "");
     const homeScore = Number(data.get("home_score")); const awayScore = Number(data.get("away_score")); const scorer = String(data.get("first_scorer") || "").trim();
     if (!matchId || !scorer || !Number.isInteger(homeScore) || !Number.isInteger(awayScore)) { toast("בחר משחק ומלא את התוצאה ואת הכובש הראשון."); return; }
     setBusy(form, true);
@@ -330,7 +330,7 @@
   }
 
   async function saveFavorites(event) {
-    event.preventDefault(); const form = event.currentTarget; const data = new FormData(form);
+    event.preventDefault(); const form = event.target; const data = new FormData(form);
     const israel = String(data.get("favorite_israel_team") || "").trim(); const ucl = String(data.get("favorite_ucl_team") || "").trim();
     if (!israel || !ucl) return;
     setBusy(form, true); $("#favorite-message").textContent = "";
@@ -358,6 +358,11 @@
     if (event.target.closest("#hero-share,#share-button,#copy-code")) await shareInvite();
     if (event.target.closest("#profile-button")) handleProfile();
     if (event.target.closest("#edit-favorites")) { hideModal("profile-modal"); $("#favorite-form [name='favorite_israel_team']").value = cloudReady ? (activeMember?.favorite_israel_team || "") : favoriteIsrael; $("#favorite-form [name='favorite_ucl_team']").value = cloudReady ? (activeMember?.favorite_ucl_team || "") : favoriteUcl; showModal("setup-profile-modal"); }
+    if (event.target.closest("#google-login")) {
+      if (!cloudReady) { toast("התחברות עם Google זמינה רק כשהאתר מחובר לענן."); return; }
+      const { error } = await db.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${location.origin}${location.pathname}${location.search}` } });
+      if (error) $("#auth-message").textContent = error.message.includes("not enabled") ? "התחברות עם Google עוד לא הופעלה. נסה שוב בקרוב." : error.message;
+    }
     if (event.target.closest("#music-toggle")) await handleMusic();
     const musicButton = event.target.closest("[data-music]"); if (musicButton) { setTheme(musicButton.dataset.music); if (!audio.paused) { audio.pause(); audio.src = AUDIO_PATHS[currentCompetition]; audio.play().catch(() => {}); } }
     const deleteButton = event.target.closest("[data-delete-match]"); if (deleteButton) await deleteMatch(deleteButton.dataset.deleteMatch);
