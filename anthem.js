@@ -85,5 +85,33 @@
     if (!silent) window.dispatchEvent(new CustomEvent("anthem", { detail: { playing: false } }));
   }
 
-  window.GoalAnthem = { play, stop, get playing() { return Boolean(ctx); } };
+  // Official anthem via YouTube's embedded player (UEFA's own upload; streamed from YouTube, not copied).
+  const YT_ID = "Gb1iGDchKYs";
+  let yt = null, ytReady = false, ytPlaying = false, ytFailed = false;
+  const card = document.createElement("div");
+  card.className = "anthem-card"; card.hidden = true;
+  card.innerHTML = '<div class="anthem-head"><span>♫ המנון ליגת האלופות</span><button type="button" class="anthem-close" aria-label="סגירה">×</button></div><div id="anthem-yt"></div>';
+  document.addEventListener("DOMContentLoaded", () => document.body.appendChild(card));
+  if (document.body) document.body.appendChild(card);
+  card.querySelector(".anthem-close").addEventListener("click", () => stopAll());
+  window.onYouTubeIframeAPIReady = () => {
+    yt = new YT.Player("anthem-yt", { width: 220, height: 124, videoId: YT_ID, playerVars: { playsinline: 1, rel: 0, modestbranding: 1 },
+      events: {
+        onReady: () => { ytReady = true; },
+        onStateChange: e => { ytPlaying = e.data === 1; if (e.data === 0) stopAll(); window.dispatchEvent(new CustomEvent("anthem", { detail: { playing: ytPlaying || Boolean(ctx) } })); },
+        onError: () => { ytFailed = true; card.hidden = true; play(); }
+      } });
+  };
+  const tag = document.createElement("script"); tag.src = "https://www.youtube.com/iframe_api"; tag.onerror = () => { ytFailed = true; }; document.head.appendChild(tag);
+
+  function playAnthem() {
+    if (ytReady && !ytFailed) { card.hidden = false; yt.seekTo(0); yt.playVideo(); window.dispatchEvent(new CustomEvent("anthem", { detail: { playing: true } })); return; }
+    play();
+  }
+  function stopAll() {
+    if (yt && ytReady) { try { yt.pauseVideo(); } catch (_) {} }
+    card.hidden = true; ytPlaying = false; stop();
+  }
+
+  window.GoalAnthem = { play: playAnthem, stop: stopAll, get playing() { return Boolean(ctx) || ytPlaying || !card.hidden; } };
 })();

@@ -41,3 +41,10 @@ body[data-theme="ucl"] .brand-mark,body[data-theme="ucl"] .avatar-button{backgro
 .intro-gate .gate-enter{height:50px;padding:0 28px;border:0;border-radius:14px;background:#dfe8ff;color:#0a1a45;font-weight:900;font-size:15px;box-shadow:0 0 30px #6d93ff77}
 .intro-gate .gate-silent{display:block;margin:14px auto 0;background:none;border:0;color:#9fb1df;font-size:12px;text-decoration:underline}
 .sound-toggle{position:fixed;left:16px;bottom:16px;z-index:9;width:42px;height:42px;border-radius:50%;border:1px solid #2b3f7d;background:#0b1a44e6;color:#dfe8ff;font-size:17px}
+
+/* Anthem mini player (YouTube embed must stay visible) */
+.anthem-card{position:fixed;left:16px;bottom:66px;z-index:9;width:236px;padding:8px;border-radius:14px;background:#0b1a44f2;border:1px solid #2b3f7d;box-shadow:0 10px 30px #0008}
+.anthem-card[hidden]{display:none}
+.anthem-head{display:flex;justify-content:space-between;align-items:center;color:#dfe8ff;font-size:11px;font-weight:800;margin-bottom:6px}
+.anthem-close{border:0;background:#ffffff14;color:#dfe8ff;width:22px;height:22px;border-radius:50%;font-size:14px;line-height:1}
+.anthem-card iframe{display:block;border-radius:8px;width:220px;height:124px}
